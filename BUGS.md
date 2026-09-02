@@ -25,3 +25,13 @@ Keep this file in the repo and **commit it** with your fixes.
 **What I changed:** Removed the incorrect `if` block (lines 16-19) from `computeBalances` in `src/lib/balances.js`. The shares loop above it already correctly assigns costs only to the people in `splitWith`, so the payer's credit was already right — the extra subtraction was the bug.
 
 ---
+
+## Bug 3
+
+**How to reproduce:** Add an expense of $100 split equally between 3 people. Check the balances — the numbers do not add up to exactly $100. Each person shows $33.33, which totals $99.99, not $100.
+
+**What is wrong:** In `src/lib/money.js`, the `splitEqual` function rounds each person's share independently to 2 decimal places and gives everyone the same amount. This loses or gains a cent when the amount doesn't divide evenly. The README says shares must cover the full bill exactly.
+
+**What I changed:** Updated `splitEqual` in `src/lib/money.js` to give all but the last person the base rounded share, then give the last person whatever is left over (`amount - assigned`). This way the shares always sum to exactly the original amount, no matter how many people are splitting.
+
+---

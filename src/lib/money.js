@@ -1,4 +1,4 @@
-export function formatMoney(amount) {
+﻿export function formatMoney(amount) {
   const n = Number(amount);
   if (!Number.isFinite(n)) return "$0.00";
   const sign = n < 0 ? "-" : "";
@@ -7,11 +7,17 @@ export function formatMoney(amount) {
 
 export function splitEqual(amount, ids) {
   const n = ids.length || 1;
-  const share = Number((amount / n).toFixed(2));
+  const base = Number((amount / n).toFixed(2));
   const shares = {};
-  for (const id of ids) {
-    shares[id] = share;
-  }
+  let assigned = 0;
+  ids.forEach((id, i) => {
+    if (i === ids.length - 1) {
+      shares[id] = Number((amount - assigned).toFixed(2));
+    } else {
+      shares[id] = base;
+      assigned = Number((assigned + base).toFixed(2));
+    }
+  });
   return shares;
 }
 
