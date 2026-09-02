@@ -35,3 +35,13 @@ Keep this file in the repo and **commit it** with your fixes.
 **What I changed:** Updated `splitEqual` in `src/lib/money.js` to give all but the last person the base rounded share, then give the last person whatever is left over (`amount - assigned`). This way the shares always sum to exactly the original amount, no matter how many people are splitting.
 
 ---
+
+## Bug 4
+
+**How to reproduce:** Filter the expense list by a category (e.g. "Food"). Then click Delete on one of the visible expenses. The wrong expense gets deleted — the one that was at that position in the unfiltered list, not the one you clicked.
+
+**What is wrong:** `ExpenseList.jsx` was using the array index from the filtered and sorted list to identify which expense to delete or edit. But the reducer in `store.js` was using that same index to splice `state.expenses`, which is the full unfiltered array. When filters are active the indexes don't match, so the wrong expense gets removed or updated.
+
+**What I changed:** Changed `ExpenseList.jsx` to pass `expense.id` instead of the array index to `onDeleteAt` and `onUpdateAt`. Updated `App.jsx` to forward that `id` in the dispatch action. Changed the `DELETE_EXPENSE` and `UPDATE_EXPENSE` cases in `src/state/store.js` to find the expense by `id` using `.filter()` and `.map()` instead of using an index to splice.
+
+---
