@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+﻿import { useMemo, useState } from "react";
 import { formatMoney } from "../lib/money.js";
 import { totalSpent } from "../lib/balances.js";
 
@@ -12,7 +12,7 @@ export default function SummaryCards({ members, expenses, onAddMember }) {
         .reduce((s, e) => s + Number(e.amount), 0);
       return { id: m.id, name: m.name, paid };
     });
-  }, [expenses]);
+  }, [members, expenses]);
 
   const spent = totalSpent(expenses);
 
