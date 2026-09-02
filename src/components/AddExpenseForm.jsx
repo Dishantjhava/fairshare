@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+﻿import { useMemo, useState } from "react";
 import { percentsSumTo100 } from "../lib/money.js";
 
 const CATEGORIES = ["Food", "Travel", "Fun", "Stay"];
@@ -17,7 +17,7 @@ export default function AddExpenseForm({ members, onAdd }) {
   const [description, setDescription] = useState("");
   const [amount, setAmount] = useState("");
   const [paidBy, setPaidBy] = useState(members[0]?.id ?? "");
-  const [date, setDate] = useState("2026-03-16");
+  const [date, setDate] = useState(new Date().toISOString().slice(0, 10));
   const [category, setCategory] = useState("Food");
   const [splitType, setSplitType] = useState("equal");
   const [splitWith, setSplitWith] = useState(members.map((m) => m.id));
